@@ -116,9 +116,14 @@ class AudioSwitch : AbstractAudioSwitch {
                 this.audioDeviceManager.enableBluetoothSco(true)
             }
 
-            is Earpiece, is WiredHeadset -> {
+            is Earpiece -> {
                 this.audioDeviceManager.enableSpeakerphone(false)
                 this.audioDeviceManager.enableBluetoothSco(false)
+            }
+            
+            is WiredHeadset -> {
+                this.audioDeviceManager.enableBluetoothSco(false)
+                this.audioDeviceManager.forceWiredHeadsetRouting()
             }
 
             is Speakerphone -> {
