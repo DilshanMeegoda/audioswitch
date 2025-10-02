@@ -127,9 +127,14 @@ class LegacyAudioSwitch : AbstractAudioSwitch {
                 this.headsetManager?.activate()
             }
 
-            is Earpiece, is WiredHeadset -> {
+            is Earpiece -> {
                 this.audioDeviceManager.enableSpeakerphone(false)
                 this.headsetManager?.deactivate()
+            }
+            
+            is WiredHeadset -> {
+                this.headsetManager?.deactivate()
+                this.audioDeviceManager.forceWiredHeadsetRouting()
             }
 
             is Speakerphone -> {
