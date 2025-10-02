@@ -112,6 +112,30 @@ internal class AudioDeviceManager(
         audioManager.isSpeakerphoneOn = enable
     }
 
+        @SuppressLint("NewApi")
+    fun forceWiredHeadsetRouting() {
+        if (build.getVersion() >= Build.VERSION_CODES.M) {
+            // Ensure we're in communication mode for proper VoIP routing
+            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+            audioManager.isSpeakerphoneOn = false
+            
+            // For Android 6.0+ devices, we can also try to set the audio mode more explicitly
+            try {
+                // Some devices need this to properly route to wired headset
+                audioManager.mode = AudioManager.MODE_IN_CALL
+                // Small delay to let the mode change take effect
+                Thread.sleep(50)
+                audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+            } catch (e: Exception) {
+                logger.d(TAG, "Could not set audio mode for wired headset routing: ${e.message}")
+            }
+        } else {
+            // For older devices, just ensure speakerphone is off and mode is correct
+            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+            audioManager.isSpeakerphoneOn = false
+        }
+    }
+
     fun mute(mute: Boolean) {
         audioManager.isMicrophoneMute = mute
     }
