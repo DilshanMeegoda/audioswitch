@@ -87,7 +87,7 @@ internal class AudioDeviceScanner(
             is AudioDevice.Speakerphone ->
                 this.type == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER
             is AudioDevice.WiredHeadset ->
-                if (this.type == AudioDeviceInfo.TYPE_WIRED_HEADSET || this.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES) {
+                if (this.type == AudioDeviceInfo.TYPE_WIRED_HEADSET || this.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES || this.type == AudioDeviceInfo.TYPE_USB_HEADSET) {
                     true
                 } else {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && this.type == AudioDeviceInfo.TYPE_USB_HEADSET
