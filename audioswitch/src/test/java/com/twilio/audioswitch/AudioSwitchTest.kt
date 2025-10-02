@@ -270,6 +270,8 @@ class AudioSwitchTest : BaseTest() {
         audioSwitch.activate()
 
         verify(audioManager).isSpeakerphoneOn = false
+        // Verify that forceWiredHeadsetRouting is called (this will be verified through audioManager.mode calls)
+        verify(audioManager, atLeastOnce()).mode = AudioManager.MODE_IN_COMMUNICATION
     }
 
     @Ignore("Finish as part of https://issues.corp.twilio.com/browse/AHOYAPPS-588")
