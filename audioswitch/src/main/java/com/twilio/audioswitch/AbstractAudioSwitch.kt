@@ -16,7 +16,7 @@ import com.twilio.audioswitch.scanners.Scanner
 import java.util.*
 import java.util.concurrent.ConcurrentSkipListSet
 
-internal const val TAG_AUDIO_SWITCH = "AudioSwitch"
+internal const val TAG_AUDIO_SWITCH = "Abstract AudioSwitch"
 
 /**
  * This class enables developers to enumerate available audio devices and select which device audio
@@ -178,6 +178,7 @@ abstract class AbstractAudioSwitch
             ConcurrentSkipListSet(AudioDevicePriorityComparator(this.preferredDeviceList))
         logger.d(TAG_AUDIO_SWITCH, "AudioSwitch($VERSION)")
         logger.d(TAG_AUDIO_SWITCH, "Preferred device list = ${this.preferredDeviceList.map { it.simpleName }}")
+        logger.d(TAG_AUDIO_SWITCH, "Available device list = ${this.availableUniqueAudioDevices.map { it.name }}")
     }
 
     fun setPreferredDeviceList(preferredDeviceList: List<Class<out AudioDevice>>) {
@@ -335,6 +336,8 @@ abstract class AbstractAudioSwitch
     }
 
     protected fun selectAudioDevice(wasListChanged: Boolean, audioDevice: AudioDevice? = this.getBestDevice()) {
+        this.logger.d(TAG_AUDIO_SWITCH, "selectAudioDevice wasListChanged - $wasListChanged - $audioDevice")
+        this.logger.d(TAG_AUDIO_SWITCH, "state - $state")
 
         if (selectedAudioDevice == audioDevice) {
             if (wasListChanged) {
