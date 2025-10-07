@@ -53,7 +53,16 @@ class LegacyAudioSwitch : AbstractAudioSwitch {
         audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener = AudioManager.OnAudioFocusChangeListener {},
         preferredDeviceList: List<Class<out AudioDevice>> = defaultPreferredDeviceList
     ) : this(
-        context, audioFocusChangeListener, ProductionLogger(loggingEnabled), preferredDeviceList
+        context, 
+        audioFocusChangeListener, 
+        ProductionLogger(loggingEnabled), 
+        preferredDeviceList,
+        audioDeviceManager = AudioDeviceManager(
+            context,
+            ProductionLogger(loggingEnabled),
+            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
+            audioFocusChangeListener = audioFocusChangeListener
+        )
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -63,12 +72,7 @@ class LegacyAudioSwitch : AbstractAudioSwitch {
         logger: Logger,
         preferredDeviceList: List<Class<out AudioDevice>>,
         audioManager: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
-        audioDeviceManager: AudioDeviceManager = AudioDeviceManager(
-            context,
-            logger,
-            audioManager,
-            audioFocusChangeListener = audioFocusChangeListener
-        ),
+        audioDeviceManager: AudioDeviceManager,
         wiredHeadsetReceiver: WiredHeadsetReceiver = WiredHeadsetReceiver(context, logger),
         headsetManager: BluetoothHeadsetManager? = BluetoothHeadsetManager.newInstance(
             context,
@@ -92,6 +96,10 @@ class LegacyAudioSwitch : AbstractAudioSwitch {
         audioDeviceManager
     ) {
         this.headsetManager = headsetManager
+    }
+
+    init {
+        logger.d(TAG_AUDIO_SWITCH, "LegacyAudioSwitch($VERSION)")
     }
 
     override fun onDeviceConnected(audioDevice: AudioDevice) {

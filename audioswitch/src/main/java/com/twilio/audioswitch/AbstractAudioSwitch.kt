@@ -171,7 +171,7 @@ abstract class AbstractAudioSwitch
         this.preferredDeviceList = getPreferredDeviceList(preferredDeviceList)
         this.availableUniqueAudioDevices =
             ConcurrentSkipListSet(AudioDevicePriorityComparator(this.preferredDeviceList))
-        logger.d(TAG_AUDIO_SWITCH, "AudioSwitch($VERSION)")
+        logger.d(TAG_AUDIO_SWITCH, "AbstractAudioSwitch($VERSION)")
         logger.d(TAG_AUDIO_SWITCH, "Preferred device list = ${this.preferredDeviceList.map { it.simpleName }}")
         logger.d(TAG_AUDIO_SWITCH, "Available device list = ${this.availableUniqueAudioDevices}")
     }

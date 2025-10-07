@@ -98,6 +98,10 @@ class AudioSwitch : AbstractAudioSwitch {
         audioDeviceManager = audioDeviceManager,
     )
 
+    init {
+        logger.d(TAG_AUDIO_SWITCH, "AudioSwitch($VERSION)")
+    }
+
     override fun onDeviceDisconnected(audioDevice: AudioDevice) {
         this.logger.d(TAG_AUDIO_SWITCH, "onDeviceDisconnected($audioDevice)")
         var wasChanged = this.availableUniqueAudioDevices.remove(audioDevice)
