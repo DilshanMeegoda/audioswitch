@@ -52,12 +52,7 @@ abstract class AbstractAudioSwitch
     loggingEnabled: Boolean = true,
     internal var logger: Logger = ProductionLogger(loggingEnabled),
     preferredDeviceList: List<Class<out AudioDevice>>,
-    internal val audioDeviceManager: AudioDeviceManager = AudioDeviceManager(
-        context,
-        logger,
-        context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
-        audioFocusChangeListener = audioFocusChangeListener
-    )
+    internal val audioDeviceManager: AudioDeviceManager
 ) : Scanner.Listener {
     internal var audioDeviceChangeListener: AudioDeviceChangeListener? = null
     internal var state: State = STOPPED
