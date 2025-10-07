@@ -51,7 +51,16 @@ class AudioSwitch : AbstractAudioSwitch {
         audioFocusChangeListener: AudioManager.OnAudioFocusChangeListener = AudioManager.OnAudioFocusChangeListener {},
         preferredDeviceList: List<Class<out AudioDevice>> = defaultPreferredDeviceList
     ) : this(
-        context, audioFocusChangeListener, ProductionLogger(loggingEnabled), preferredDeviceList
+        context,
+        audioFocusChangeListener,
+        ProductionLogger(loggingEnabled),
+        preferredDeviceList,
+        audioDeviceManager = AudioDeviceManager(
+            context,
+            ProductionLogger(loggingEnabled),
+            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
+            audioFocusChangeListener = audioFocusChangeListener
+        )
     )
 
     /**
@@ -77,12 +86,7 @@ class AudioSwitch : AbstractAudioSwitch {
         logger: Logger,
         preferredDeviceList: List<Class<out AudioDevice>>,
         audioManager: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
-        audioDeviceManager: AudioDeviceManager = AudioDeviceManager(
-            context,
-            logger,
-            audioManager,
-            audioFocusChangeListener = audioFocusChangeListener
-        ),
+        audioDeviceManager: AudioDeviceManager,
         handler: Handler = Handler(Looper.getMainLooper()),
         scanner: Scanner = AudioDeviceScanner(audioManager, handler),
     ) : super(
