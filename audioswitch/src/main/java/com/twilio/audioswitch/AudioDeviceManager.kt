@@ -53,7 +53,8 @@ internal class AudioDeviceManager(
             false
         } else {
             // Fallback to telephony feature check for older Android versions
-            val hasEarpiece = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
+            val hasEarpiece =
+                context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
             if (hasEarpiece) {
                 logger.d(TAG, "Earpiece available")
             }
