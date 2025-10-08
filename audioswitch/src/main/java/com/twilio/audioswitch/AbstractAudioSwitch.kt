@@ -356,13 +356,8 @@ abstract class AbstractAudioSwitch
     }
 
     private fun getBestDevice(): AudioDevice? {
-        val userSelectedAudioDevice = userSelectedAudioDevice
-        return if (userSelectedAudioDevice != null && this.deviceScanner.isDeviceActive(userSelectedAudioDevice)) {
-            userSelectedAudioDevice
-        } else {
-            this.availableUniqueAudioDevices.firstOrNull {
-                this.deviceScanner.isDeviceActive(it)
-            }
+        return this.availableUniqueAudioDevices.firstOrNull {
+            this.deviceScanner.isDeviceActive(it)
         }
     }
 
